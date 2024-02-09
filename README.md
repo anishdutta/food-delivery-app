@@ -65,7 +65,8 @@ Explore the API endpoints and test them using Postman: [API Documentation](https
 
 - ## Testing
 
-- **`/api/testing/run`** - **POST**: Trigger a test run.
+- **`auth.test.ts`** - **POST**: Trigger a test run.
+- **`restaurant.test.ts`** - **POST**: Trigger a test run.
 
 ## Contributing
 

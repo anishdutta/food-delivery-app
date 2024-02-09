@@ -10,7 +10,10 @@ export const get = async (req: Request, res: Response) => {
       await validateAuthToken(request.token);
       const resturantService = new ResturantService();
       const message = await resturantService.getRestaurants(request.deliveryTime);
-      res.status(HttpsStatusCode.SUCCESS).send({ message });
+      if((message as any).error){
+        res.status(HttpsStatusCode.PARTIALLY_SUCCESS).send({ ...message });
+      }
+      res.status(HttpsStatusCode.SUCCESS).send({ response: message });
     } catch (err) {
       console.error("Error in get", err);
       const message =  getErrorMessages(err?.['errors'])
@@ -31,7 +34,10 @@ export const add = async (req: Request, res: Response) => {
       await validateAuthToken(request.token);
       const resturantService = new ResturantService();
       const message = await resturantService.addResturant(request);
-      res.status(HttpsStatusCode.SUCCESS).send({ message });
+      if((message as any).error){
+        res.status(HttpsStatusCode.PARTIALLY_SUCCESS).send({...message });
+      }
+      res.status(HttpsStatusCode.SUCCESS).send({ response:message });
     } catch (err) {
       console.error("Error in add", err);
       const message =  getErrorMessages(err?.['errors'])

@@ -3,6 +3,7 @@ import {
   ICreateUserRequest,
   IUser,
   IUserIdentifier,
+  IUserRoles,
 } from "../user/user.interfaces";
 import { UserService } from "../user/user.service";
 import { ApiHelper } from "../../utils/utils.interfaces";
@@ -22,6 +23,12 @@ export class AuthService {
    */
   async login(loginRequest: ILoginUserRequest): Promise<ApiHelper<IUser>> {
     this.init();
+    if(!this.handleRoleAuth(loginRequest)){
+      return {
+        status: 404,
+        error: `Required identifier is missing from ${loginRequest.role}`
+      }
+    }
 
     const identifier = this.getUserIdentifier(loginRequest);
 
@@ -74,6 +81,12 @@ export class AuthService {
    */
   async register(registerBody: ICreateUserRequest): Promise<ApiHelper<IUser>> {
     this.init();
+    if(!this.handleRoleAuth(registerBody)){
+      return {
+        status: 404,
+        error: `Required identifier is missing from ${registerBody.role}`
+      }
+    }
     const dbRequestBody: ICreateUserRequest = {
       ...registerBody,
       isVerified: false,
@@ -90,5 +103,20 @@ export class AuthService {
       response: user,
       status: 200,
     };
+  }
+
+  private handleRoleAuth(registerBody: ICreateUserRequest | ILoginUserRequest){
+
+    switch(registerBody.role){
+      case IUserRoles.CUSTOMER:
+        return !!registerBody.phoneNumber;
+      case IUserRoles.ADMIN:
+        return !!registerBody.email;
+      case IUserRoles.DELIVERY:
+        return !!registerBody.username;
+      default:
+        return false;
+    }
+
   }
 }

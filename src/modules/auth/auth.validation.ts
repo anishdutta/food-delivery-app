@@ -18,7 +18,7 @@ export const login = {
     username: Joi.string().optional(),
     phoneNumber: Joi.string().optional(),
     role: Joi.string().required(),
-    email: Joi.string().required(),
+    email: Joi.string().optional(),
     password: Joi.string().required(),
 };
 

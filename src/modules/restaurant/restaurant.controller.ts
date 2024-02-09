@@ -1,7 +1,7 @@
 import { HttpsStatusCode } from "../../utils/utils.interfaces";
 import { Request, Response } from "express";
 import { getErrorMessages, validateAuthToken } from "../../utils/utils";
-import { ResturantService } from "./resturant.service";
+import { ResturantService } from "./restaurant.service";
 
 
 export const get = async (req: Request, res: Response) => {
@@ -9,7 +9,7 @@ export const get = async (req: Request, res: Response) => {
       const request = req.body;
       await validateAuthToken(request.token);
       const resturantService = new ResturantService();
-      const message = await resturantService.getResturants(request.deliveryTime);
+      const message = await resturantService.getRestaurants(request.deliveryTime);
       res.status(HttpsStatusCode.SUCCESS).send({ message });
     } catch (err) {
       console.error("Error in get", err);

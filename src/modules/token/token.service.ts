@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken";
 import moment, { Moment } from "moment";
 import { AccessAndRefreshTokens } from "./token.interfaces";
 import { IUser } from "../user/user.interfaces";
-import User from "../user/user.model";
-import config from "src/config/db.config";
+import {User} from "../user/user.model";
+import config from "../../config/db.config";
 
 export class TokenService {
   user: User;

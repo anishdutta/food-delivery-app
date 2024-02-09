@@ -1,6 +1,6 @@
 import { DataTypes, Model, CreationOptional } from "sequelize";
 import { sequelize } from "../../config/sequelize.config";
-import { ICreateResturantRequest, IResturant } from "./resturant.interface";
+import { ICreateResturantRequest, IResturant } from "./restaurant.interface";
 import { Op } from "sequelize";
 
 class ResturantDb extends Model<IResturant> {
@@ -36,18 +36,18 @@ ResturantDb.init(
   },
   {
     sequelize,
-    tableName: "resturants",
+    tableName: "restaurants",
     underscored: true,
   }
 );
 
-export class Resturant {
+export class Restaurant {
   /**
    * Retrieves a list of restaurants that are open and able to serve food at the given delivery time.
    * @param {number} deliveryTime - The delivery time in a numerical format.
    * @returns {Promise<IRestaurant[]>} - A promise that resolves to an array of restaurant objects.
    */
-  async getResturants(deliveryTime: number): Promise<IResturant[]> {
+  async getRestaurants(deliveryTime: number): Promise<IResturant[]> {
     return await ResturantDb.findAll({
       where: {
         serveStartTime: {
@@ -65,12 +65,10 @@ export class Resturant {
    * @param {ICreateRestaurantRequest} request - The request object containing the restaurant data.
    * @returns {Promise<IRestaurant>} - A promise that resolves to the created restaurant object.
    */
-  async createResturant(request: ICreateResturantRequest): Promise<IResturant> {
+  async createRestaurant(request: ICreateResturantRequest): Promise<IResturant> {
     return await ResturantDb.create({
       ...request,
       createdAt: new Date(),
     });
   }
 }
-
-export default Resturant;

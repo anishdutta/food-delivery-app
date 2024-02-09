@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import authRoute from './auth.routes';
-import resturantRoute from './resturant.routes'
+import resturantRoute from './restaurant.routes'
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ const defaultIRoute: IRoute[] = [
     route: authRoute,
   },
   {
-    path: '/resturant',
+    path: '/Restaurant',
     route: resturantRoute,
   }
 ];

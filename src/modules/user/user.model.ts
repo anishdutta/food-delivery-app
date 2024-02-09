@@ -76,18 +76,39 @@ UserDb.init(
 
 export class User {
 
+  /**
+   * Creates a new user in the database with the provided user information.
+   * @param {ICreateUserRequest} createUserRequest - The request object containing the user information.
+   * @returns {Promise<IUser>} - A promise that resolves to the created user object.
+   */
   async createUser(createUserRequest: ICreateUserRequest):Promise<IUser>{
     return await UserDb.create({
       ...createUserRequest,
+  /**
+   * Retrieves a user from the database based on their ID.
+   * @param {string} id - The ID of the user to retrieve.
+   * @returns {Promise<IUser>} A promise that resolves to the user object.
+   */
       createdAt: new Date(),
       updatedAt: new Date()
     });
   };
 
+  /**
+   * Retrieves a user from the database based on their ID.
+   * @param {string} id - The ID of the user to retrieve.
+   * @returns {Promise<IUser>} A promise that resolves to the user object.
+   */
   async getUserById(id:string):Promise<IUser>{
     return await UserDb.findByPk(id);
   };
 
+  /**
+   * Updates a user in the database with the specified ID using the provided update options.
+   * @param {number} id - The ID of the user to update.
+   * @param {Partial<IUser>} updateOptions - The partial user object containing the fields to update.
+   * @returns {Promise<[affectedCount: number, affectedRows: IUser[]]>} - A promise that resolves to an array containing the number of affected rows and the updated user objects.
+   */
   async updateUser(id:number,updateOptions:Partial<IUser>):Promise<[affectedCount: number, affectedRows: IUser[]]>{
     return await UserDb.update({...updateOptions},{
       returning: true,
@@ -97,6 +118,13 @@ export class User {
     });
   };
 
+  /**
+   * Retrieves a user from the database based on the given role, identifier type, and identifier value.
+   * @param {IUserRoles} role - The role of the user.
+   * @param {IUserIdentifier} identifierType - The type of identifier to search for (e.g. email, username).
+   * @param {string} identifierValue - The value of the identifier to search for.
+   * @returns {Promise<IUser>} - A promise that resolves to the user object if found, or null if not found.
+   */
   async getUserByIdentifier(role: IUserRoles, identifierType: IUserIdentifier, identifierValue:string):Promise<IUser>{
     return await UserDb.findOne({
       where:{
@@ -106,11 +134,15 @@ export class User {
     });
   }
 
-  isPassowordMatch(user:IUser, password:string){
+  /**
+   * Checks if the provided password matches the hashed password stored in the user object.
+   * @param {IUser} user - The user object containing the hashed password.
+   * @param {string} password - The password to compare.
+   * @returns {boolean} - True if the password matches, false otherwise.
+   */
+  isPassowordMatch(user:IUser, password:string):boolean{
     return bcrypt.compare(password, user.password);  
   }
 
 
 }
-
-export default User;

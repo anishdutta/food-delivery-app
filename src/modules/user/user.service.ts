@@ -2,7 +2,7 @@ import { ApiHelper, HttpsStatusCode } from "../../utils/utils.interfaces";
 import {
   ICreateUserRequest, IUser, IUserIdentifier, IUserRoles,
 } from "./user.interfaces";
-import User from "./user.model";
+import {User} from "./user.model";
 import bcrypt from 'bcryptjs';
 
 export class UserService {
@@ -30,7 +30,7 @@ export class UserService {
   }
 
   async isPasswordMatch(user:IUser,password:string):Promise<boolean>{
-    console.log()
+    console.log(user.password,password)
     return bcrypt.compare(password, user.password);
   }
 

@@ -1,23 +1,23 @@
 /**
  * A service class for managing restaurant data.
  */
-import { ICreateResturantRequest } from "./resturant.interface";
-import Resturant from "./resturant.model";
+import { ICreateResturantRequest, IResturant } from "./restaurant.interface";
+import {Restaurant} from "./restaurant.model";
 
 export class ResturantService {
-  resturant: Resturant;
+  restaurant: Restaurant;
 
   constructor() {
-    this.resturant = new Resturant();
+    this.restaurant = new Restaurant();
   }
 
   /**
    * Adds a new restaurant to the system.
    * @param {ICreateRestaurantRequest} request - The request object containing the details of the restaurant to be created.
-   * @returns {Promise<void>} - A promise that resolves when the restaurant is successfully created.
+   * @returns {Promise<IResturant>} - A promise that resolves when the restaurant is successfully created.
    */
-  async addResturant(request: ICreateResturantRequest) {
-    return await this.resturant.createResturant(request);
+  async addResturant(request: ICreateResturantRequest):Promise<IResturant> {
+    return await this.restaurant.createRestaurant(request);
   }
 
   /**
@@ -25,14 +25,14 @@ export class ResturantService {
    * @param {string} deliveryTime - The delivery time in a specific format.
    * @returns {Promise<object>} - A promise that resolves to an object containing the status and error message if applicable, or the list of restaurants.
    */
-  async getResturants(deliveryTime: string) {
+  async getRestaurants(deliveryTime: string) {
     if (!this.isValidTime(deliveryTime)) {
       return {
         status: 404,
         error: "Invalid Time Format!",
       };
     }
-    return await this.resturant.getResturants(Number(deliveryTime));
+    return await this.restaurant.getRestaurants(Number(deliveryTime));
   }
 
   /**
